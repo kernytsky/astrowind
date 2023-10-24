@@ -1,0 +1,57 @@
+---
+title: Off-target editing paper FAQ
+publishDate: 2023-05-05
+image: ~/assets/images/little-clouds.jpg
+draft: false
+category: FAQ
+description: FAQ about off-target editing and best practices
+author: Andrew Kernytsky
+tags: [off-target]
+---
+
+<div >
+While at CRISPR Therapeutics, my team and I compared three laboratory off-target assessment methods in an extensive experiment. It showed that GUIDE-seq, CIRCLE-seq, and SITE-seq have substantially the same ability to detect off-target sites. We published this in [The CRISPR Journal](https://www.liebertpub.com/doi/full/10.1089/crispr.2020.0053).
+
+Here are some common questions:
+
+### FAQ
+
+**1. How did you optimize amount of dsODN to use in the GUIDE-seq experiments?**
+
+GUIDE-seq depends on a small 36 nucleotide oligo (dsODN) becoming inserted into double strand breaks at some non-trivial frequency in order to detect off-target sites. Measuring dsODN insertion can be done by amplifying by PCR and then sequencing the on-target region and then quantifying the amount of dsODN insertion by either next gen sequencing (NGS) or Sanger sequencing. When using Sanger sequencing, methods like [TIDE](https://tide.nki.nl) can detect the dsODN by looking for a 34 nucleotide insertion. Getting a few percent insertion typically produces good GUIDE-seq results.
+But too much dsODN can make cells suspect that massive DNA damage has happened leading to cell death. For this reason, assessing cell viability is important to put an upper limit on dsODN quantity. Anything less than 50% viable cells (and often 60 or 70% are preferred) suggests that too much dsODN has been added. The GUIDE-seq data will often be littered with false positives when this happens. Ultimately the dsODN quanity to use depends on balancing these two factors: detecting sufficient dsODN insertion and not killing too many cells with dsODN "poisoning".
+
+**2. Why didn't you include method X? It's fantastic!**
+
+There are always new methods but we had to make a call to include a set number of methods and move forward with them at a given point in time. Other methods are probably great but have not been evaluated in this fashion.
+
+**3. Can I compare my method to these methods in a rigorous fashion?**
+
+You certainly can! If you use the same eight gRNAs and follow a protocol similar to what's described, you should be able to compare to these there off-target methods. It would be great to put that data out publicly or in a publication. Get in touch if you're thinking of doing that or want pointers / feedback.
+
+**4. Why do you use the term sequence-confirmed and not validated or shmalidated or whatever?**
+
+Terminology is tricky and getting a fixed lexicon for this new field is quite important. The National Institute for Standards and Technology has a [Genome Editing Consortium](https://www.nist.gov/programs-projects/nist-genome-editing-consortium). It has put together a [lexicon](https://www.nist.gov/programs-projects/nist-genome-editing-lexicon) of terms for gene editing that aims to standardize how we speak about genome editing. We have attempted to follow this whenever possible and suggest others do as well.
+Though sequence confirmed is not in the lexicon it is creates an important distinction between potential off-target editing that is initially detected by an experimental method and those that are then confirmed by sequencing the off-target regions in a separate experiment.
+
+### Best practices
+
+1. The use of computational off-target and on-target site prediction methods to prioritize candidate gRNAs.
+
+2. The use of both a homology-independent (empirical) method and a homology-dependent (computational) method used to nominate potential off-target sites. While this study has demonstrated that homology-independent methods are comprehensive and have low false-negative rates, a conservative approach should include both nomination methods. For ex vivo therapeutics, GUIDE-seq will provide the lowest false-positive rate of the methods evaluated. For in vivo therapeutics, CIRCLE-seq may be able to provide the broadest nomination strategy.
+
+3. Sequencing at sufficient depth and the use of multiple replicates for genome-wide assays and sequence confirmation. Sequencing potential off-target sites at a read depth of more than 1,000 will generally allow for the detection of less than 1% editing, while a read depth of more than 5,000 will increase sensitivity to less than 0.2%. The use of replicates enables comprehensive nomination of sites edited at low frequencies and provides essential statistical power.
+
+4. The use of rational selection criteria to nominate potential off-target sites for further evaluation. For example, one may choose targets within an edit distance of three from the on-target site or choose targets with more than 10 CIRCLE-seq reads. This contrasts with the common practice of assaying an arbitrary number of top sites.
+
+5. The use of appropriate statistical methods for calling off-target edits as sequence confirmed.
+
+6. Consideration of potential sequence artifacts from low complexity regions, such as homopolymer stretches.
+
+7. Analysis of indel patterns at statistically significant sites to confirm that they resemble typical CRISPR-Cas-mediated edits.
+
+8. Consideration of the genomic context of the off-target site on the expression, regulation, and function of genes. Does editing occur in a promoter or coding region of a gene? Does editing occur in or near a tumor suppressor or oncogene? Or does editing occur in an intergenic region, far from any gene?
+
+---
+
+</div>
